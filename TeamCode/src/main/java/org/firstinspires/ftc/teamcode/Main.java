@@ -29,47 +29,28 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.structure.Command;
+import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 
-@TeleOp(name="Drive_Train_Arcade", group="Teleop")
-public class DriveTrain_Arcade extends LinearOpMode {
+@TeleOp(name="Main", group="2020")
+public class Main extends Command {
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    DriveTrainSubsystem driveTrain;
 
     @Override
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    public void onInit(OpMode opMode) {
+        driveTrain = new DriveTrainSubsystem(hardwareMap);
+    }
 
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+    @Override
+    public void onExecute(OpMode opMode) {
+        driveTrain.arcadeDrive(gamepad1.left_stick_x, gamepad1.left_stick_y);
+    }
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+    @Override
+    public void onEnd(OpMode opMode) {
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-        runtime.reset();
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            //Get the joystick inputs
-            double rightPower  = gamepad1.left_stick_y + gamepad1.left_stick_x;
-            double leftPower = gamepad1.left_stick_y - gamepad1.left_stick_x;
-
-            // Send calculated power to wheels
-            leftDrive.setPower(leftPower);
-            rightDrive.setPower(rightPower);
-
-            // Update telemetry
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
-        }
     }
 }
