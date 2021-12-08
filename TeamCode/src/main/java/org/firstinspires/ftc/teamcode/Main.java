@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.structure.Command;
+import org.firstinspires.ftc.teamcode.commands.CameraCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 
 @TeleOp(name="Main", group="2020")
@@ -42,6 +43,8 @@ public class Main extends Command {
     @Override
     public void onInit(OpMode opMode) {
         driveTrain = new DriveTrainSubsystem(hardwareMap);
+
+        addSubCommand(new CameraCommand());
     }
 
     @Override

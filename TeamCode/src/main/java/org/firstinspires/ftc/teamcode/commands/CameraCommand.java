@@ -26,6 +26,8 @@ public class CameraCommand implements SubCommand {
 
     private Handler callbackHandler;
 
+    private Bitmap currentFrame;
+
     @Override
     public void onInit(OpMode opMode) {
         callbackHandler = CallbackLooper.getDefault().getHandler();
@@ -51,23 +53,28 @@ public class CameraCommand implements SubCommand {
                 public void onConfigured(@NonNull CameraCaptureSession session) {
                     try {
                         CameraCaptureRequest request = camera.createCaptureRequest(format, size, fps);
-                        session.startCapture(request, (CameraCaptureSession.CaptureCallback) (cameraCaptureSession, cameraCaptureRequest, cameraFrame) -> {
-                            Bitmap bmp = request.createEmptyBitmap();
-                            cameraFrame.copyToBitmap(bmp);
+                        session.startCapture(request, (cameraCaptureSession, cameraCaptureRequest, cameraFrame) -> {
+                            currentFrame = request.createEmptyBitmap();
+                            cameraFrame.copyToBitmap(currentFrame);
+
+                            opMode.telemetry.addData("Last photo taken", System.currentTimeMillis());
                         }, Continuation.create(callbackHandler, (session1, cameraCaptureSequenceId, lastFrameNumber) -> {}));
+                        cameraSession = session;
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
                 }
             }));
         } catch (CameraException e) {
-
+            e.printStackTrace();
         }
     }
 
     @Override
     public void onExecute(OpMode opMode) {
-
+        if(cameraSession != null) {
+            opMode.telemetry.addData("Camera Session", "open");
+        }
     }
 
     @Override
