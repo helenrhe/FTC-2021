@@ -44,11 +44,13 @@ public class Main extends Command {
     public void onInit(OpMode opMode) {
         driveTrain = new DriveTrainSubsystem(hardwareMap);
 
-        addSubCommand(new CameraCommand());
+        //addSubCommand(new CameraCommand());
     }
 
     @Override
     public void onExecute(OpMode opMode) {
+        telemetry.addData("debug", "dt: " + driveTrain + ", lm" + driveTrain.leftMotor);
+
         driveTrain.arcadeDrive(gamepad1.left_stick_x, gamepad1.left_stick_y);
     }
 

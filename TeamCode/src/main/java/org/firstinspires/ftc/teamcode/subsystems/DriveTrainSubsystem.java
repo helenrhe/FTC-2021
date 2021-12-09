@@ -6,11 +6,11 @@ import org.firstinspires.ftc.structure.Subsystem;
 
 public class DriveTrainSubsystem extends Subsystem {
 
-    DcMotor leftMotor, rightMotor;
+    public DcMotor leftMotor, rightMotor;
 
     public DriveTrainSubsystem(HardwareMap hardwareMap) {
         leftMotor = hardwareMap.dcMotor.get("left_drive");
-        leftMotor = hardwareMap.dcMotor.get("right_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
     }
 
     public void tankDrive(double left, double right) {
