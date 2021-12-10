@@ -33,25 +33,24 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.structure.Command;
 import org.firstinspires.ftc.teamcode.commands.CameraCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveTrainCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
 @TeleOp(name="Main", group="2020")
 public class Main extends Command {
 
-    DriveTrainSubsystem driveTrain;
-
     @Override
     public void onInit(OpMode opMode) {
-        driveTrain = new DriveTrainSubsystem(hardwareMap);
+        addSubCommand(new DriveTrainCommand());
+        addSubCommand(new ElevatorCommand());
 
         //addSubCommand(new CameraCommand());
     }
 
     @Override
     public void onExecute(OpMode opMode) {
-        telemetry.addData("debug", "dt: " + driveTrain + ", lm" + driveTrain.leftMotor);
-
-        driveTrain.arcadeDrive(gamepad1.left_stick_x, gamepad1.left_stick_y);
     }
 
     @Override
