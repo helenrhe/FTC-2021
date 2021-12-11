@@ -20,10 +20,12 @@ public class ClawSubsystem extends Subsystem {
     }
 
     public void open(){
-
+        left.setPosition(0.3);
+        right.setPosition(0.6);
     }
 
     public void close(){
-
+        left.setPosition(0.6);
+        right.setPosition(0.2);
     }
 }
