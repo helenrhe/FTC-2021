@@ -32,7 +32,7 @@ public class DriveTrainSubsystem extends Subsystem {
     public void arcadeDrive(double x, double y) {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotor.setPower(Util.Clamp(-x + y, -1, 1));
+        leftMotor.setPower(Util.Clamp(x - y, -1, 1));
         rightMotor.setPower(Util.Clamp(-x - y, -1, 1));
     }
 
