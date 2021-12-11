@@ -15,8 +15,8 @@ public class DriveTrainCommand implements SubCommand {
     @Override
     public void onExecute(OpMode opMode) {
         driveTrain.logData(opMode.telemetry);
-        //driveTrain.arcadeDrive(opMode.gamepad1.left_stick_x, opMode.gamepad1.left_stick_y);
-        driveTrain.tankDrive(opMode.gamepad1.left_stick_y, opMode.gamepad1.left_stick_y);
+        driveTrain.arcadeDrive(opMode.gamepad1.left_stick_x, opMode.gamepad1.left_stick_y);
+        //driveTrain.tankDrive(opMode.gamepad1.left_stick_y, opMode.gamepad1.left_stick_y);
     }
 
     @Override
