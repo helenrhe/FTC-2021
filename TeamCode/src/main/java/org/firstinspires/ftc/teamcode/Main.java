@@ -35,6 +35,7 @@ import org.firstinspires.ftc.structure.Command;
 import org.firstinspires.ftc.teamcode.commands.CameraCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveTrainCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
+import org.firstinspires.ftc.teamcode.commands.SpinnerCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
@@ -45,6 +46,7 @@ public class Main extends Command {
     public void onInit(OpMode opMode) {
         addSubCommand(new DriveTrainCommand());
         addSubCommand(new ElevatorCommand());
+        addSubCommand(new SpinnerCommand());
 
         //addSubCommand(new CameraCommand());
     }
