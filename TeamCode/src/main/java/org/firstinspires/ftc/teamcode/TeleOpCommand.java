@@ -36,6 +36,7 @@ import org.firstinspires.ftc.teamcode.commands.CameraCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveTrainCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
+import org.firstinspires.ftc.teamcode.commands.SpinnerCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
@@ -46,6 +47,7 @@ public class TeleOpCommand extends Command {
     public void onInit(OpMode opMode) {
         addSubCommand(new DriveTrainCommand());
         addSubCommand(new ElevatorCommand());
+        addSubCommand(new SpinnerCommand());
 
         addSubCommand(new ClawCommand());
 
