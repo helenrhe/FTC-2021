@@ -40,7 +40,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
 @TeleOp(name="Main", group="2020")
-public class Main extends Command {
+public class TeleOpCommand extends Command {
 
     @Override
     public void onInit(OpMode opMode) {
