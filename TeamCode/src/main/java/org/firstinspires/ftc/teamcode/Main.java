@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.structure.Command;
 import org.firstinspires.ftc.teamcode.commands.CameraCommand;
+import org.firstinspires.ftc.teamcode.commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveTrainCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
@@ -45,6 +46,8 @@ public class Main extends Command {
     public void onInit(OpMode opMode) {
         addSubCommand(new DriveTrainCommand());
         addSubCommand(new ElevatorCommand());
+
+        addSubCommand(new ClawCommand());
 
         //addSubCommand(new CameraCommand());
     }
