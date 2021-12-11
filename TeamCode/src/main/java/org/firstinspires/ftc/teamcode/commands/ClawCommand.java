@@ -14,9 +14,9 @@ public class ClawCommand implements SubCommand {
     @Override
     public void onExecute(OpMode opMode) {
         clawSubsystem.log(opMode.telemetry);
-        if(opMode.gamepad1.a) {
+        if(opMode.gamepad2.a) {
             clawSubsystem.open();
-        } else if(opMode.gamepad1.b) {
+        } else if(opMode.gamepad2.b) {
             clawSubsystem.close();
         }
     }
