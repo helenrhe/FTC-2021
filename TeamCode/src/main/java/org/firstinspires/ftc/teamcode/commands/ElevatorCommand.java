@@ -18,24 +18,24 @@ public class ElevatorCommand implements SubCommand {
     @Override
     public void onExecute(OpMode opMode) {
         //Reset code - press back and b at the same time to set the location of the elevator to the bottom.
-        if((opMode.gamepad1.back && opMode.gamepad1.b)) {
+        if((opMode.gamepad2.back && opMode.gamepad2.b)) {
             elevator.reset();
         }
 
         //Choose between either manual or automatic control based on currently pressed buttons
         //Automatic movement
-        if(opMode.gamepad1.dpad_down || opMode.gamepad1.dpad_up) {
+        if(opMode.gamepad2.dpad_down || opMode.gamepad2.dpad_up) {
             //Stop any manual movement
             if(manualUsed) {
                 elevator.manualStop();
                 manualUsed = false;
             }
             //If the d-pad down button was just pressed
-            if(opMode.gamepad1.dpad_down && !held) {
+            if(opMode.gamepad2.dpad_down && !held) {
                 elevator.lower();
                 held = true;
             //If the d-pad up button was just pressed
-            } else if(opMode.gamepad1.dpad_up && !held) {
+            } else if(opMode.gamepad2.dpad_up && !held) {
                 elevator.raise();
                 held = true;
             }
@@ -45,11 +45,11 @@ public class ElevatorCommand implements SubCommand {
             held = false;
 
             //Manually raise the elevator.
-            if(opMode.gamepad1.right_bumper) {
+            if(opMode.gamepad2.right_bumper) {
                 elevator.manualUp();
                 manualUsed = true;
             //Manually lower the elevator
-            } else if(opMode.gamepad1.left_bumper) {
+            } else if(opMode.gamepad2.left_bumper) {
                 elevator.manualDown();
                 manualUsed = true;
             //Stop movement when button released.
