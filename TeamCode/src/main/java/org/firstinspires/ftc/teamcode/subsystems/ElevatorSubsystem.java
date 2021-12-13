@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class ElevatorSubsystem extends Subsystem {
 
-    private static double speed = 0.5;
+    private static double speed = 1;
 
     private static int[] storedHeights = {
             0,      // Ground
@@ -34,6 +34,10 @@ public class ElevatorSubsystem extends Subsystem {
 
     private RevTouchSensor touchSensor;
     private boolean wasPressed = false;
+
+    private int lastPosition = 0;
+
+    private static final double MAX_CURRENT_DRAW = 1000;
 
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         //Initialize Hardware.
@@ -102,9 +106,19 @@ public class ElevatorSubsystem extends Subsystem {
     }
 
     /**
+     * Get the change in the elevator since this function was last called.
+     */
+    public int getMovementDelta() {
+        int change = elevatorMotor.getCurrentPosition() - lastPosition;
+        lastPosition = elevatorMotor.getCurrentPosition();
+        return change;
+    }
+
+    /**
      * Resets the elevator. Should old be called when the elevator is at the lowest level.
      */
     public void reset() {
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        currentPosition = 0;
     }
 }

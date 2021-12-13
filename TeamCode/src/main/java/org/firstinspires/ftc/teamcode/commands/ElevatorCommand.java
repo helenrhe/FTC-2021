@@ -58,10 +58,7 @@ public class ElevatorCommand implements SubCommand {
             }
         }
 
-        //Debug logging - press start on gamepad 1
-        if(opMode.gamepad1.start) {
-            elevator.logData(opMode.telemetry);
-        }
+        elevator.logData(opMode.telemetry);
     }
 
     @Override

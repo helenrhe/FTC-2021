@@ -5,7 +5,7 @@ import org.firstinspires.ftc.structure.SubCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SpinnerSubsystem;
 
 public class SpinnerCommand implements SubCommand {
-    private static double speed = 0.5;
+    private static double speed = -1;
     SpinnerSubsystem spinner;
 
     @Override
