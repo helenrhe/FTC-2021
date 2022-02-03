@@ -37,7 +37,10 @@ public class ElevatorSubsystem extends Subsystem {
 
     private int lastPosition = 0;
 
-    private static final double MAX_CURRENT_DRAW = 1000;
+    private static final double MAX_CURRENT_DRAW_UP = 25;
+    private static final double MAX_CURRENT_DRAW_DOWN = 25;
+
+    private boolean freezeUp = false, freezeDown = false;
 
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         //Initialize Hardware.
@@ -59,6 +62,12 @@ public class ElevatorSubsystem extends Subsystem {
      * Raise the elevator one preset level. If it is at the max level already, nothing will happen
      */
     public void raise() {
+        if(freezeUp || Math.abs(elevatorMotor.getCurrentDraw(ExpansionHubEx.CurrentDrawUnits.AMPS)) > MAX_CURRENT_DRAW_UP) {
+            freezeUp = true;
+            elevatorMotor.setPower(0);
+            return;
+        }
+        freezeDown = false;
         if(currentPosition < storedHeights.length - 1) {
             currentPosition++;
         }
@@ -72,6 +81,12 @@ public class ElevatorSubsystem extends Subsystem {
      * Lower the elevator one preset level. If it is at the min level already, nothing will happen
      */
     public void lower() {
+        if(freezeDown || Math.abs(elevatorMotor.getCurrentDraw(ExpansionHubEx.CurrentDrawUnits.AMPS)) > MAX_CURRENT_DRAW_DOWN) {
+            freezeDown = true;
+            reset();
+            return;
+        }
+        freezeUp = false;
         if(currentPosition > 0) {
             currentPosition--;
         }
@@ -85,6 +100,12 @@ public class ElevatorSubsystem extends Subsystem {
      * Manually raise the elevator. It will continue to move until the {@link #manualStop()} is called
      */
     public void manualUp() {
+        if(freezeUp || Math.abs(elevatorMotor.getCurrentDraw(ExpansionHubEx.CurrentDrawUnits.AMPS)) > MAX_CURRENT_DRAW_UP) {
+            freezeUp = true;
+            elevatorMotor.setPower(0);
+            return;
+        }
+        freezeDown = false;
         elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         elevatorMotor.setPower(-speed);
     }
@@ -93,6 +114,12 @@ public class ElevatorSubsystem extends Subsystem {
      * Manually lower the elevator. It will continue to move until the {@link #manualStop()} is called
      */
     public void manualDown() {
+        if(freezeDown || Math.abs(elevatorMotor.getCurrentDraw(ExpansionHubEx.CurrentDrawUnits.AMPS)) > MAX_CURRENT_DRAW_DOWN) {
+            freezeDown = true;
+            reset();
+            return;
+        }
+        freezeUp = false;
         elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         elevatorMotor.setPower(speed);
     }

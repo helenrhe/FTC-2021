@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-@Autonomous(name = "Main Auto", group = "Auto")
-public class AutonomousCommand extends AutoCommand {
+@Autonomous(name = "Main Auto Low", group = "Auto")
+public class AutonomousCommandLow extends AutoCommand {
 
     private int stage = 0;
 
@@ -18,9 +18,9 @@ public class AutonomousCommand extends AutoCommand {
     private ClawSubsystem claw;
 
     private static int DISTANCE_TO_HUB = 2000;
-    private static int BACKUP_DISTANCE = 1750;
-    private static int TURN_DISTANCE = -1000;
-    private static int SPINNER_DISTANCE = 4000;
+    private static int BACKUP_DISTANCE = 1900;
+    private static int TURN_DISTANCE = -900;
+    private static int SPINNER_DISTANCE = 7000;
 
     @Override
     public void onInit(OpMode opMode) {
@@ -32,7 +32,6 @@ public class AutonomousCommand extends AutoCommand {
         addInstantStage(elevator::reset);
         addInstantStage(claw::close);
         addDelay(750);
-        addInstantStage(elevator::raise);
         addInstantStage(elevator::raise);
         addDelay(2000);
         addStage(() -> {
@@ -66,7 +65,7 @@ public class AutonomousCommand extends AutoCommand {
         addInstantStage(driveTrain::resetDistance);
         addStage(() -> {
             if(driveTrain.getDisplacement().first < SPINNER_DISTANCE) {
-                driveTrain.tankDrive(-0.6, -0.6);
+                driveTrain.tankDrive(-1, -1);
             } else {
                 nextStage();
             }

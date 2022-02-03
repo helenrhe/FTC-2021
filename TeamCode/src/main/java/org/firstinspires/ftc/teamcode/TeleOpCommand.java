@@ -40,7 +40,7 @@ import org.firstinspires.ftc.teamcode.commands.SpinnerCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-@TeleOp(name="Main", group="2020")
+@TeleOp(name="Main", group="2022")
 public class TeleOpCommand extends Command {
 
     @Override
