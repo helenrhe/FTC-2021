@@ -1,7 +1,7 @@
 <grip:Pipeline>
   <sources>
     <grip:Camera>
-      <property name="deviceNumber" value="2"/>
+      <property name="deviceNumber" value="0"/>
     </grip:Camera>
   </sources>
   <steps>
@@ -9,32 +9,35 @@
       <grip:Input step="0" socket="0"/>
       <grip:Input step="0" socket="1">
         <value>
-          <double>180.01348920863308</double>
-          <double>255.0</double>
+          <double>27.51798561151079</double>
+          <double>114.66296928327644</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="2">
         <value>
           <double>0.0</double>
-          <double>161.44197952218428</double>
+          <double>33.07167235494879</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="3">
         <value>
           <double>0.0</double>
-          <double>144.0358361774744</double>
+          <double>52.65358361774746</double>
         </value>
       </grip:Input>
       <grip:Output step="0" socket="0" previewed="true"/>
     </grip:Step>
-    <grip:Step name="Blur">
+    <grip:Step name="CV erode">
       <grip:Input step="1" socket="0"/>
-      <grip:Input step="1" socket="1">
-        <value>GAUSSIAN</value>
+      <grip:Input step="1" socket="1"/>
+      <grip:Input step="1" socket="2"/>
+      <grip:Input step="1" socket="3">
+        <value>2.0</value>
       </grip:Input>
-      <grip:Input step="1" socket="2">
-        <value>7.207207207207207</value>
+      <grip:Input step="1" socket="4">
+        <value>BORDER_CONSTANT</value>
       </grip:Input>
+      <grip:Input step="1" socket="5"/>
       <grip:Output step="1" socket="0" previewed="true"/>
     </grip:Step>
     <grip:Step name="Find Blobs">
@@ -60,12 +63,12 @@
       <grip:Input step="2" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output step="0" socket="0" previewed="true"/>
-      <grip:Input step="1" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
       <grip:Output source="0" socket="0" previewed="true"/>
       <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="1" socket="0"/>
     </grip:Connection>
   </connections>
   <settings>

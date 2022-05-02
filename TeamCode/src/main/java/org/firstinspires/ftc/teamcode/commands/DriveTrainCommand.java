@@ -16,6 +16,7 @@ public class DriveTrainCommand implements SubCommand {
     public void onExecute(OpMode opMode) {
         driveTrain.logData(opMode.telemetry);
         driveTrain.arcadeDrive(opMode.gamepad1.right_stick_x, opMode.gamepad1.left_stick_y);
+        if(opMode.gamepad1.back && opMode.gamepad1.b) driveTrain.resetDistance();
         //driveTrain.tankDrive(opMode.gamepad1.left_stick_y, opMode.gamepad1.left_stick_y);
     }
 

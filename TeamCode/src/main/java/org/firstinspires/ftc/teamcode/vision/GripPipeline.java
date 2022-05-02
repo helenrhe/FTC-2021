@@ -1,25 +1,19 @@
 package org.firstinspires.ftc.teamcode.vision;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.util.RobotLog;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.opencv.android.Utils;
+import com.acmerobotics.dashboard.config.Config;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.opencv.core.*;
-import org.opencv.core.Core.*;
+import org.opencv.features2d.Feature2D;
+import org.opencv.features2d.Features2d;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.features2d.SimpleBlobDetector_Params;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
-import org.opencv.objdetect.*;
+import org.openftc.easyopencv.OpenCvPipeline;
+
+import java.util.function.Consumer;
+import java.util.stream.Collector;
 
 /**
 * GripPipeline class.
@@ -28,61 +22,77 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class GripPipeline {
+@Config
+public class GripPipeline extends OpenCvPipeline {
+
+	public static double R_MIN = 0;
+	public static double R_MAX = 110;
+	public static double G_MIN = 0;
+	public static double G_MAX = 255;
+	public static double B_MIN = 0;
+	public static double B_MAX = 255;
 
 	//Outputs
 	private Mat rgbThresholdOutput = new Mat();
-	private Mat blurOutput = new Mat();
+	private Mat cvErodeOutput = new Mat();
 	private MatOfKeyPoint findBlobsOutput = new MatOfKeyPoint();
 
-	public KeyPoint[] process(Mat source0) {
-		return process(source0, false);
+	private KeyPointConsumer onUpdatedData;
+
+	public interface KeyPointConsumer {
+		void onUpdatedData(Point point);
+	}
+
+	public GripPipeline(KeyPointConsumer onUpdatedData) {
+		this.onUpdatedData = onUpdatedData;
 	}
 
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
+	 * @return
 	 */
-	public KeyPoint[] process(Mat source0, boolean saveFrame) {
-		// Step RGB_Threshold0:
+	public Mat processFrame(Mat source0) {
+		// Step RGB_Threshold0:Mat
 		Mat rgbThresholdInput = source0;
-		double[] rgbThresholdRed = {180.01348920863308, 255.0};
-		double[] rgbThresholdGreen = {0.0, 161.44197952218428};
-		double[] rgbThresholdBlue = {0.0, 144.0358361774744};
+		double[] rgbThresholdRed = {R_MIN, R_MAX};
+		double[] rgbThresholdGreen = {G_MIN, G_MAX};
+		double[] rgbThresholdBlue = {B_MIN, B_MAX};
 		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
-		Bitmap bitmap = null;
-		if(saveFrame)
-			bitmap = Bitmap.createBitmap(rgbThresholdOutput.cols(), rgbThresholdOutput.rows(), Bitmap.Config.ARGB_8888);
-
-		if(saveFrame) {
-			Utils.matToBitmap(rgbThresholdOutput, bitmap);
-			saveBitmap(bitmap, "rgb_threshold");
-		}
-
 		// Step Blur0:
-		Mat blurInput = rgbThresholdOutput;
-		BlurType blurType = BlurType.get("Gaussian Blur");
-		double blurRadius = 7.207207207207207;
-		blur(blurInput, blurType, blurRadius, blurOutput);
-
-		if(saveFrame) {
-			Utils.matToBitmap(blurOutput, bitmap);
-			saveBitmap(bitmap, "blur");
-		}
+		Mat cvErodeSrc = rgbThresholdOutput;
+		Mat cvErodeKernel = new Mat();
+		Point cvErodeAnchor = new Point(-1, -1);
+		double cvErodeIterations = 2.0;
+		int cvErodeBordertype = Core.BORDER_CONSTANT;
+		Scalar cvErodeBordervalue = new Scalar(-1);
+		cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
 
 		// Step Find_Blobs0:
-		Mat findBlobsInput = blurOutput;
-		double findBlobsMinArea = 1.0;
+		Mat findBlobsInput = cvErodeOutput;
+		double findBlobsMinArea = 0;
 		double[] findBlobsCircularity = {0.0, 1.0};
 		boolean findBlobsDarkBlobs = false;
-		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
+		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, false, findBlobsOutput);
 
-//		if(saveFrame) {
-//			Utils.matToBitmap(findBlobsOutput, bitmap);
-//			saveBitmap(bitmap, "blob");
-//		}
 
-		return findBlobsOutput.toArray();
+		float biggestSize = -1;
+		Point biggestPoint = null;
+		for(KeyPoint point : findBlobsOutput().toArray()) {
+			if(point.size > biggestSize) {
+				biggestSize = point.size;
+				biggestPoint = point.pt;
+			}
+		}
+
+		if(biggestPoint != null)
+			onUpdatedData.onUpdatedData(biggestPoint);
+
+		Mat out = new Mat();
+
+		Features2d.drawKeypoints(cvErodeOutput, findBlobsOutput, out, new Scalar(0,0,255), Features2d.DrawMatchesFlags_DRAW_RICH_KEYPOINTS);
+
+		return out;
 	}
 
 	private void saveBitmap(Bitmap bitmap, String name) {
@@ -112,7 +122,7 @@ public class GripPipeline {
 	 * @return Mat output from Blur.
 	 */
 	public Mat blurOutput() {
-		return blurOutput;
+		return cvErodeOutput;
 	}
 
 	/**
@@ -205,6 +215,30 @@ public class GripPipeline {
 	}
 
 	/**
+	 * Expands area of lower value in an image.
+	 * @param src the Image to erode.
+	 * @param kernel the kernel for erosion.
+	 * @param anchor the center of the kernel.
+	 * @param iterations the number of times to perform the erosion.
+	 * @param borderType pixel extrapolation method.
+	 * @param borderValue value to be used for a constant border.
+	 * @param dst Output Image.
+	 */
+	private void cvErode(Mat src, Mat kernel, Point anchor, double iterations,
+						 int borderType, Scalar borderValue, Mat dst) {
+		if (kernel == null) {
+			kernel = new Mat();
+		}
+		if (anchor == null) {
+			anchor = new Point(-1,-1);
+		}
+		if (borderValue == null) {
+			borderValue = new Scalar(-1);
+		}
+		Imgproc.erode(src, dst, kernel, anchor, (int)iterations, borderType, borderValue);
+	}
+
+	/**
 	 * Detects groups of pixels in an image.
 	 * @param input The image on which to perform the find blobs.
 	 * @param minArea The minimum size of a blob that will be found
@@ -217,28 +251,15 @@ public class GripPipeline {
 		SimpleBlobDetector_Params params = new SimpleBlobDetector_Params();
 
 		params.set_thresholdStep(10);
-		params.set_minThreshold(50);
+		params.set_minThreshold(0);
 		params.set_maxThreshold(220);
-		params.set_minRepeatability(2);
-		params.set_minDistBetweenBlobs(10);
-
-		params.set_filterByColor(true);
+		params.set_minRepeatability(1);
+		params.set_minDistBetweenBlobs(0);
 
 		params.set_filterByArea(true);
 		params.set_minArea((float) minArea);
 		params.set_maxArea(Integer.MAX_VALUE);
 
-		params.set_filterByCircularity(true);
-		params.set_minCircularity((float)circularity[0]);
-		params.set_maxCircularity((float) circularity[1]);
-
-		params.set_filterByInertia(true);
-		params.set_minInertiaRatio(0.1f);
-		params.set_maxInertiaRatio(Integer.MAX_VALUE);
-
-		params.set_filterByConvexity(true);
-		params.set_minConvexity(0.95f);
-		params.set_maxConvexity(Integer.MAX_VALUE);
 		SimpleBlobDetector blobDet = SimpleBlobDetector.create(params);
 
 		blobDet.detect(input, blobList);

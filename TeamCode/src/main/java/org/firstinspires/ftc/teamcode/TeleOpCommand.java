@@ -29,14 +29,12 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.structure.Command;
-import org.firstinspires.ftc.teamcode.commands.CameraCommand;
-import org.firstinspires.ftc.teamcode.commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.commands.DriveTrainCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
-import org.firstinspires.ftc.teamcode.commands.SpinnerCommand;
+import org.firstinspires.ftc.teamcode.commands.*;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
@@ -45,11 +43,13 @@ public class TeleOpCommand extends Command {
 
     @Override
     public void onInit(OpMode opMode) {
+        opMode.telemetry = new MultipleTelemetry(opMode.telemetry, FtcDashboard.getInstance().getTelemetry());
         addSubCommand(new DriveTrainCommand());
         addSubCommand(new ElevatorCommand());
         addSubCommand(new SpinnerCommand());
 
         addSubCommand(new ClawCommand());
+        addSubCommand(new SimpleCameraCommand());
 
         //addSubCommand(new CameraCommand());
     }

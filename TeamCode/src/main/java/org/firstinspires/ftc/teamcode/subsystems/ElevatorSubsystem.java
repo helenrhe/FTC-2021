@@ -24,7 +24,7 @@ public class ElevatorSubsystem extends Subsystem {
     private static int[] storedHeights = {
             0,      // Ground
             -2293,  // Low
-            -5482,  // Mid
+            -5600,  // Mid
             -8004   // High
     };
 
@@ -33,7 +33,6 @@ public class ElevatorSubsystem extends Subsystem {
     private ExpansionHubMotor elevatorMotor;
 
     private RevTouchSensor touchSensor;
-    private boolean wasPressed = false;
 
     private int lastPosition = 0;
 
@@ -45,6 +44,7 @@ public class ElevatorSubsystem extends Subsystem {
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         //Initialize Hardware.
         elevatorMotor = (ExpansionHubMotor) hardwareMap.get(DcMotor.class, "elevator");
+        touchSensor = hardwareMap.get(RevTouchSensor.class, "elevator_sensor");
     }
 
     /**
@@ -54,6 +54,8 @@ public class ElevatorSubsystem extends Subsystem {
     public void logData(Telemetry telemetry) {
         telemetry.addData("elevatorPosition", elevatorMotor.getCurrentPosition());
         telemetry.addData("stepPosition", currentPosition);
+
+        telemetry.addData("sensor", touchSensor.isPressed());
 
         telemetry.addData("Motor Current", elevatorMotor.getCurrentDraw(ExpansionHubEx.CurrentDrawUnits.AMPS));
     }
@@ -114,6 +116,13 @@ public class ElevatorSubsystem extends Subsystem {
      * Manually lower the elevator. It will continue to move until the {@link #manualStop()} is called
      */
     public void manualDown() {
+        manualDown(speed);
+    }
+
+    /**
+     * Manually lower the elevator. It will continue to move until the {@link #manualStop()} is called
+     */
+    public void manualDown(double speed) {
         if(freezeDown || Math.abs(elevatorMotor.getCurrentDraw(ExpansionHubEx.CurrentDrawUnits.AMPS)) > MAX_CURRENT_DRAW_DOWN) {
             freezeDown = true;
             reset();
@@ -147,5 +156,14 @@ public class ElevatorSubsystem extends Subsystem {
     public void reset() {
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         currentPosition = 0;
+    }
+
+    public boolean autoReset() {
+        if(!touchSensor.isPressed()) {
+            manualDown(0.5);
+            return false;
+        }
+        manualStop();
+        return true;
     }
 }

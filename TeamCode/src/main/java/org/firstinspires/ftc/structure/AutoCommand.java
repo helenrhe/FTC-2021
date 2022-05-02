@@ -6,9 +6,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 public abstract class AutoCommand extends Command {
     private ElapsedTime delay = new ElapsedTime();
+
+    @FunctionalInterface
+    public interface Condition {
+        boolean shouldRun();
+    }
 
     private int stage = 0;
     private LinkedList<Runnable> stages = new LinkedList<>();
@@ -20,6 +27,14 @@ public abstract class AutoCommand extends Command {
     protected void addInstantStage(Runnable callback) {
         addStage(() -> {
             callback.run();
+            nextStage();
+        });
+    }
+
+    protected void addInstantConditionalStage(Condition condition, Runnable callback) {
+        addStage(() -> {
+            if(condition.shouldRun())
+                callback.run();
             nextStage();
         });
     }
