@@ -1,22 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import org.firstinspires.ftc.structure.AutoCommand;
 import org.firstinspires.ftc.teamcode.commands.CameraCommand;
-import org.firstinspires.ftc.teamcode.subsystems.*;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SpinnerSubsystem;
 
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
-@Autonomous(name = "Smart Auto", group = "Auto")
+@Autonomous(name = "Tournament Auto", group = "Auto")
 @Config
-public class SmartAuto extends AutoCommand {
+public class TournamentAuto extends AutoCommand {
 
     private int stage = 0;
 
