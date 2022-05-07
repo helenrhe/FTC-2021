@@ -25,9 +25,11 @@ public class TeamObjectPipeline {
 	public synchronized KeyPoint[] process(Mat source0) {
 		// Step RGB_Threshold0:
 		Mat rgbThresholdInput = source0;
-		double[] rgbThresholdRed = {212.11780575539566, 255.0};
-		double[] rgbThresholdGreen = {108.92535971223022, 184.28754266211604};
+		double[] rgbThresholdRed = {50, 100};
+		double[] rgbThresholdGreen = {212.11780575539566, 255.0};
 		double[] rgbThresholdBlue = {63.06205035971223, 125.54180887372014};
+		//green Team Element
+		//AVERY!!!!!!!!!!!!!!!!!!!!!!!!
 		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
 		// Step Blur0:
