@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-@Autonomous(name = "Blue Left", group = "Auto")
+@Autonomous(name = "Blue", group = "Auto")
 public class BlueLeft extends AutoCommand {
 
     private int stage = 0;
@@ -16,8 +16,8 @@ public class BlueLeft extends AutoCommand {
     private ElevatorSubsystem elevator;
     private ClawSubsystem claw;
 
-    private static int DISTANCE_TO_HUB = 2000;
-    private static int BACKUP_DISTANCE = 1900;
+    private static int DISTANCE_TO_HUB = 2200;
+    private static int BACKUP_DISTANCE = 2000;
     private static int TURN_DISTANCE = 100;
     private static int SPINNER_DISTANCE = 7000;
 

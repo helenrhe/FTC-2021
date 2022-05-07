@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
-@Autonomous(name = "Red Left", group = "Auto")
+@Autonomous(name = "DO NOT USE 2", group = "Auto")
 @Config
 public class RedLeft extends AutoCommand {
 
