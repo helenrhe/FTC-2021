@@ -33,12 +33,12 @@ public class BlueRight extends AutoCommand {
 
     public static double TO_TEAM_ELEMENT = 700;
 
-    public static double TURN_TO_SPINNER = 67;
+    public static double TURN_TO_SPINNER = 120;
     public static double TO_SPINNER = 725;
 
     public static int SPIN_TIME = 4000;
 
-    public static double TURN_TO_MID = -70;
+    public static double TURN_TO_MID = -10;
     public static double TO_MID = 4200;
 
     public static double TURN_TO_SHIPPING_HUB = -20;
@@ -94,7 +94,7 @@ public class BlueRight extends AutoCommand {
 
         //Move to Spinner
         addDriveForwardStage(TO_TEAM_ELEMENT, SPEED);
-        addTurnRightStage(40+TURN_TO_SPINNER, SPEED);
+        addTurnRightStage(TURN_TO_SPINNER, SPEED);
         addDriveForwardStage(TO_SPINNER, SPEED);
 
         //Spin Spinner
@@ -104,7 +104,7 @@ public class BlueRight extends AutoCommand {
 
         //Go to the shipping hub
         addDriveBackwardStage(350, SPEED);
-        addTurnLeftStage(TURN_TO_MID-40, SPEED);
+        addTurnLeftStage(TURN_TO_MID, SPEED);
         addInstantConditionalStage(() -> teamShippingElementLocation >= 300, elevator::raise);
         addDriveForwardStage(TO_MID, SPEED);
         addTurnRightStage(TURN_TO_SHIPPING_HUB, SPEED);
