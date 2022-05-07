@@ -5,6 +5,8 @@ import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.features2d.SimpleBlobDetector_Params;
 import org.opencv.imgproc.*;
 
+//TODO: This causes a memory leak. Too bad!
+
 /**
 * GripPipeline class.
 *
@@ -93,7 +95,9 @@ public class TeamObjectPipeline {
 	 * Choices are BOX, GAUSSIAN, MEDIAN, and BILATERAL
 	 */
 	enum BlurType{
-		BOX("Box Blur"), GAUSSIAN("Gaussian Blur"), MEDIAN("Median Filter"),
+		BOX("Box Blur"),
+		GAUSSIAN("Gaussian Blur"),
+		MEDIAN("Median Filter"),
 			BILATERAL("Bilateral Filter");
 
 		private final String label;
