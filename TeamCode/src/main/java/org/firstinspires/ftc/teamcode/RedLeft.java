@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
-@Autonomous(name = "Smart Auto", group = "Auto")
+@Autonomous(name = "Red Left", group = "Auto")
 @Config
-public class SmartAuto extends AutoCommand {
+public class RedLeft extends AutoCommand {
 
     private int stage = 0;
 

@@ -38,8 +38,8 @@ import org.firstinspires.ftc.teamcode.commands.*;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-@TeleOp(name="Main", group="2022")
-public class TeleOpCommand extends Command {
+@TeleOp(name="RedDrive", group="2022")
+public class RedDrive extends Command {
 
     @Override
     public void onInit(OpMode opMode) {
