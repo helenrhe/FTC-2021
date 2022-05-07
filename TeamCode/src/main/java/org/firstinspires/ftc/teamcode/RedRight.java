@@ -16,9 +16,9 @@ public class RedRight extends AutoCommand {
     private ElevatorSubsystem elevator;
     private ClawSubsystem claw;
 
-    private static int DISTANCE_TO_HUB = 2200;
-    private static int BACKUP_DISTANCE = 2000;
-    private static int TURN_DISTANCE = -11;
+    private static int DISTANCE_TO_HUB = 2000;
+    private static int BACKUP_DISTANCE = 1900;
+    private static int TURN_DISTANCE = -900;
     private static int SPINNER_DISTANCE = 7000;
 
     @Override
