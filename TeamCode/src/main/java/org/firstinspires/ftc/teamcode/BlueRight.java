@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SpinnerSubsystem;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-@Autonomous(name = "Blue Right", group = "Auto")
+@Autonomous(name = "DO NOT USE", group = "Auto")
 @Config
 public class BlueRight extends AutoCommand {
 
@@ -31,20 +31,20 @@ public class BlueRight extends AutoCommand {
 
     public static int CAMERA_READ_TIMEOUT_MAX = 2000;
 
-    public static double TO_TEAM_ELEMENT = 700;
+    public static double TO_TEAM_ELEMENT = 1700;
 
-    public static double TURN_TO_SPINNER = 120;
-    public static double TO_SPINNER = 725;
+    public static double TURN_TO_SPINNER = -100;
+    public static double TO_SPINNER = 2700;
 
     public static int SPIN_TIME = 4000;
 
-    public static double TURN_TO_MID = -10;
+    public static double TURN_TO_MID = 10;
     public static double TO_MID = 4200;
 
-    public static double TURN_TO_SHIPPING_HUB = -20;
+    public static double TURN_TO_SHIPPING_HUB = 20;
     public static double TO_SHIPPING_HUB = 1300;
 
-    public static double TURN_TO_WAREHOUSE = -73;
+    public static double TURN_TO_WAREHOUSE = 73;
     public static double TO_WAREHOUSE = 7000;
 
     public static double SPEED = 0.25;
@@ -90,8 +90,6 @@ public class BlueRight extends AutoCommand {
             }
         });
 
-        addInstantStage(elevator::raise);
-
         //Move to Spinner
         addDriveForwardStage(TO_TEAM_ELEMENT, SPEED);
         addTurnRightStage(TURN_TO_SPINNER, SPEED);
@@ -104,6 +102,7 @@ public class BlueRight extends AutoCommand {
 
         //Go to the shipping hub
         addDriveBackwardStage(350, SPEED);
+        addInstantStage(elevator::raise);
         addTurnLeftStage(TURN_TO_MID, SPEED);
         addInstantConditionalStage(() -> teamShippingElementLocation >= 300, elevator::raise);
         addDriveForwardStage(TO_MID, SPEED);

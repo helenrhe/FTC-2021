@@ -18,7 +18,7 @@ public class BlueLeft extends AutoCommand {
 
     private static int DISTANCE_TO_HUB = 2000;
     private static int BACKUP_DISTANCE = 1900;
-    private static int TURN_DISTANCE = 900;
+    private static int TURN_DISTANCE = 100;
     private static int SPINNER_DISTANCE = 7000;
 
     @Override

@@ -33,7 +33,7 @@ public class RedLeft extends AutoCommand {
     public static double TO_TEAM_ELEMENT = 700;
 
     public static double TURN_TO_SPINNER = 67;
-    public static double TO_SPINNER = 725;
+    public static double TO_SPINNER = 750;
 
     public static int SPIN_TIME = 4000;
 
@@ -41,7 +41,7 @@ public class RedLeft extends AutoCommand {
     public static double TO_MID = 4200;
 
     public static double TURN_TO_SHIPPING_HUB = -20;
-    public static double TO_SHIPPING_HUB = 1300;
+    public static double TO_SHIPPING_HUB = 1200;
 
     public static double TURN_TO_WAREHOUSE = -73;
     public static double TO_WAREHOUSE = 7000;
@@ -104,7 +104,7 @@ public class RedLeft extends AutoCommand {
         //Go to the shipping hub
         addDriveBackwardStage(350, SPEED);
         addTurnRightStage(TURN_TO_MID, SPEED);
-        addInstantConditionalStage(() -> teamShippingElementLocation >= 300, elevator::raise);
+        addInstantConditionalStage(() -> teamShippingElementLocation >= 300 || true, elevator::raise);
         addDriveForwardStage(TO_MID, SPEED);
         addTurnLeftStage(TURN_TO_SHIPPING_HUB, SPEED);
         addDriveForwardStage(TO_SHIPPING_HUB, SPEED);
@@ -117,7 +117,7 @@ public class RedLeft extends AutoCommand {
         addDriveBackwardStage(TO_SHIPPING_HUB / 4, SPEED);
         addTurnRightStage(TURN_TO_WAREHOUSE, SPEED);
         addInstantStage(claw::close);
-        addInstantConditionalStage(() -> teamShippingElementLocation >= 300, elevator::lower);
+        addInstantConditionalStage(() -> teamShippingElementLocation >= 300 || true, elevator::lower);
         addDriveForwardStage(TO_WAREHOUSE, 0.8);
     }
 
