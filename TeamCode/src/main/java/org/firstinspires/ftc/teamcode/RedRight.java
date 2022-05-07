@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-@Autonomous(name = "Main Auto Mid", group = "Auto")
-public class AutonomousCommandMid extends AutoCommand {
+@Autonomous(name = "Red Right", group = "Auto")
+public class RedRight extends AutoCommand {
 
     private int stage = 0;
 

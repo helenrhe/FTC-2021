@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.structure.AutoCommand;
-import org.firstinspires.ftc.structure.Command;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-@Autonomous(name = "Main Auto Low", group = "Auto")
-public class AutonomousCommandLow extends AutoCommand {
+@Autonomous(name = "Blue Left", group = "Auto")
+public class BlueLeft extends AutoCommand {
 
     private int stage = 0;
 
@@ -19,7 +18,7 @@ public class AutonomousCommandLow extends AutoCommand {
 
     private static int DISTANCE_TO_HUB = 2000;
     private static int BACKUP_DISTANCE = 1900;
-    private static int TURN_DISTANCE = -900;
+    private static int TURN_DISTANCE = 900;
     private static int SPINNER_DISTANCE = 7000;
 
     @Override
@@ -32,6 +31,7 @@ public class AutonomousCommandLow extends AutoCommand {
         addInstantStage(elevator::reset);
         addInstantStage(claw::close);
         addDelay(750);
+        addInstantStage(elevator::raise);
         addInstantStage(elevator::raise);
         addDelay(2000);
         addStage(() -> {
@@ -55,8 +55,8 @@ public class AutonomousCommandLow extends AutoCommand {
         addInstantStage(driveTrain::resetDistance);
         addDelay(500);
         addStage(() -> {
-            if(driveTrain.getDisplacement().second > TURN_DISTANCE) {
-                driveTrain.tankDrive(-0.3, 0.3);
+            if(driveTrain.getDisplacement().second < TURN_DISTANCE) {
+                driveTrain.tankDrive(0.3, -0.3);
             } else {
                 nextStage();
             }
