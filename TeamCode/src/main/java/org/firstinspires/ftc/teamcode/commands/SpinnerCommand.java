@@ -17,6 +17,8 @@ public class SpinnerCommand implements SubCommand {
     public void onExecute(OpMode opMode) {
         if (opMode.gamepad1.y) {
             spinner.spin(speed);
+        } else if (opMode.gamepad1.x) {
+            spinner.spin(-speed);
         } else {
             spinner.spin(0);
         }

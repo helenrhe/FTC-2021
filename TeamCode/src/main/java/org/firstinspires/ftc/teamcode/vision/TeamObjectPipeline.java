@@ -28,6 +28,8 @@ public class TeamObjectPipeline {
 		double[] rgbThresholdRed = {110, 220};
 		double[] rgbThresholdGreen = {120, 255};
 		double[] rgbThresholdBlue = {0, 95};
+		//Green block RGB threshold
+		//https://youtu.be/vN6yohuXyi0
 		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
 		// Step Blur0:
